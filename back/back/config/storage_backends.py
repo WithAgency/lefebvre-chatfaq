@@ -45,7 +45,6 @@ class PrivateMediaS3Storage(S3Boto3Storage):
             HttpMethod="PUT",
         )
         print(f"Generated presigned URL: {url}")
-        url = transform_url(url)
         url = url.replace("us-east-1", "ams3")
         print(f"Transformed presigned URL: {url}")
         return url
