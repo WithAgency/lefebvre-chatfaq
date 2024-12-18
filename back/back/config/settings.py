@@ -301,6 +301,7 @@ with EnvManager(model_w_django) as env:
         AWS_QUERYSTRING_EXPIRE = "3600"
         AWS_S3_SIGNATURE_VERSION = env.get("AWS_S3_SIGNATURE_VERSION", default=None)
         AWS_S3_REGION_NAME = env.get("AWS_S3_REGION_NAME", default=None)
+        AWS_S3_CUSTOM_DOMAIN = env.get("AWS_S3_CUSTOM_DOMAIN", default=None)
 
     # --------------------------- LLM APIs ---------------------------
     VLLM_ENDPOINT_URL = env.get("VLLM_ENDPOINT_URL", default=None)
