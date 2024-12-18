@@ -69,7 +69,6 @@ envs:
 
     AWS_S3_REGION_NAME: 'ams3'
     AWS_S3_CUSTOM_DOMAIN: 'lefebvre-chatfaq.ams3.digitaloceanspaces.com'  # Add this line
-    AWS_S3_ADDRESSING_STYLE: 'virtual'  # Add this line
 
     STORAGES_MODE: 'do'
     STORAGE_MAKE_FILES_PUBLIC: 'no'
