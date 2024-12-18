@@ -40,13 +40,15 @@ class PrivateMediaS3Storage(S3Boto3Storage):
         """
         url = self.connection.meta.client.generate_presigned_url(
             "put_object",
-            Params={"Bucket": self.bucket_name, "Key": path, "ContentType": content_type},
+            Params={
+                "Bucket": self.bucket_name,
+                "Key": path,
+                "ContentType": content_type,
+                'ACL': 'public-read'
+            },
             ExpiresIn=expires_in,
             HttpMethod="PUT",
         )
-        print(f"Generated presigned URL: {url}")
-        url = url.replace("us-east-1", "ams3")
-        print(f"Transformed presigned URL: {url}")
         return url
 
 class PrivateMediaLocalStorage(FileSystemStorage):
