@@ -11,18 +11,18 @@ def transform_url(url):
     if match:
         region = match.group(1)
         bucket_name = match.group(2)
-        
+
         # Replace the beginning of the URL
         new_url = re.sub(
             f'https://{region}.digitaloceanspaces.com/{bucket_name}',
             f'https://{bucket_name}.{region}.digitaloceanspaces.com',
             url
         )
-        
+
         return new_url
     else:
         return url  # Return original URL if pattern doesn't match
-    
+
 class PublicMediaS3Storage(S3Boto3Storage):
     default_acl = "public-read"
     file_overwrite = False
@@ -31,7 +31,7 @@ class PublicMediaS3Storage(S3Boto3Storage):
 class PrivateMediaS3Storage(S3Boto3Storage):
     default_acl = "private"
     file_overwrite = False
-    custom_domain = False
+    custom_domain = "lefebvre-chatfaq.ams3.digitaloceanspaces.com"  # Set to virtual-hosted domain
 
     def generate_presigned_url(self, path, content_type, expires_in=3600):
         """
@@ -44,7 +44,7 @@ class PrivateMediaS3Storage(S3Boto3Storage):
                 "Bucket": self.bucket_name,
                 "Key": path,
                 "ContentType": content_type,
-                'ACL': 'public-read'
+                'ACL': self.default_acl
             },
             ExpiresIn=expires_in,
             HttpMethod="PUT",
