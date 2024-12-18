@@ -33,52 +33,6 @@ class PrivateMediaS3Storage(S3Boto3Storage):
     default_acl = "private"  # Set default ACL to 'private' for secure uploads
     file_overwrite = False    # Prevent files with the same name from being overwritten
 
-    # Set to your Space's virtual-hosted style domain
-    custom_domain = "lefebvre-chatfaq.ams3.digitaloceanspaces.com"
-
-    # Define the signature version and region name as class attributes
-    signature_version = 's3v4'  # Typically 's3v4' for DigitalOcean Spaces
-    region_name = 'ams3'         # Your Space's region
-
-    # ===============================
-    # Initialization
-    # ===============================
-
-    def __init__(self, *args, **kwargs):
-        """
-        Initialize the storage backend with custom configurations for region and addressing style.
-        """
-        super().__init__(*args, **kwargs)
-
-    # ===============================
-    # Boto3 Client Configuration
-    # ===============================
-
-    def get_connection_params(self):
-        """
-        Override the connection parameters to set 'addressing_style' to 'virtual' and specify 'signature_version'.
-        """
-        params = super().get_connection_params()
-
-        # Create a custom Config object with 'virtual' addressing style and 's3v4' signature version
-        boto3_config = BotoConfig(
-            signature_version='s3v4',
-            s3={'addressing_style': 'virtual'}
-        )
-
-        # Update the existing 'config' in params if it exists, else add it
-        if 'config' in params:
-            # Merge existing s3 settings if any
-            existing_s3 = params['config'].s3.copy() if 's3' in params['config'] else {}
-            existing_s3.update({'addressing_style': 'virtual'})
-            params['config'] = Config(
-                signature_version='s3v4',
-                s3=existing_s3
-            )
-        else:
-            params['config'] = boto3_config
-
-        return params
 
     def generate_presigned_url(self, path, content_type, expires_in=3600):
         """
