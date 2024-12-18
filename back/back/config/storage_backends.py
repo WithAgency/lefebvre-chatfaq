@@ -46,9 +46,9 @@ class PrivateMediaS3Storage(S3Boto3Storage):
 
         # Update the kwargs with the custom domain and config
         kwargs.update({
-            'custom_domain': self.custom_domain,
+            'custom_domain': 'lefebvre-chatfaq.ams3.digitaloceanspaces.com',
             'config': boto3_config,
-            'region_name': self.region_name,  # Ensure 'region_name' is set in your environment or here
+            'region_name': 'ams3',  # Ensure 'region_name' is set in your environment or here
         })
 
         super().__init__(*args, **kwargs)
