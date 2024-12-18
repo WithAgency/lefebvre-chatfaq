@@ -40,8 +40,8 @@ class PrivateMediaS3Storage(S3Boto3Storage):
         """
         # Create a custom Config object with 'virtual' addressing style and 's3v4' signature version
         boto3_config = BotoConfig(
-            signature_version='s3v4',# self.signature_version,  # Typically 's3v4'
-            addressing_style='virtual'  # Enforce virtual-hosted style URLs
+            signature_version=self.signature_version,  # Typically 's3v4'
+            s3={'addressing_style': 'virtual'}         # Enforce virtual-hosted style URLs
         )
 
         # Update the kwargs with the custom domain and config
