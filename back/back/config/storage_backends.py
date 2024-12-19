@@ -23,10 +23,16 @@ class PrivateMediaS3Storage(S3Boto3Storage):
     ):
         return self.connection.meta.client.generate_presigned_url(
             "put_object",
-            Params={"Bucket": self.bucket_name, "Key": path, "ContentType": content_type},
+            Params={
+                "Bucket": self.bucket_name,
+                "Key": path,
+                "ContentType": content_type,
+            },
             ExpiresIn=expires_in,
             HttpMethod="PUT",
         )
+
+
 class PrivateMediaLocalStorage(FileSystemStorage):
     location = settings.MEDIA_ROOT
 
