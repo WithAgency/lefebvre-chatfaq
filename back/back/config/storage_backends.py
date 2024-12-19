@@ -21,28 +21,34 @@ class PrivateMediaS3Storage(S3Boto3Storage):
         content_type: str = "application/octet-stream",
         expires_in: int = 3600,
     ):
-        # Create a session using DigitalOcean Spaces credentials
-        session = boto3.session.Session()
+        # # Create a session using DigitalOcean Spaces credentials
+        # session = boto3.session.Session()
 
-        # Create S3 client with custom endpoint
-        s3_client = session.client(
-            "s3",
-            endpoint_url=settings.AWS_S3_CUSTOM_DOMAIN,
-            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-            config=Config(signature_version="s3v4"),
-        )
+        # # Create S3 client with custom endpoint
+        # s3_client = session.client(
+        #     "s3",
+        #     endpoint_url=settings.AWS_S3_CUSTOM_DOMAIN,
+        #     aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        #     aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        #     config=Config(signature_version="s3v4"),
+        # )
 
-        # Generate a signed URL for uploading
-        return s3_client.generate_presigned_url(
+        # # Generate a signed URL for uploading
+        # return s3_client.generate_presigned_url(
+        #     "put_object",
+        #     Params={
+        #         "Bucket": settings.AWS_STORAGE_BUCKET_NAME,
+        #         "Key": path,
+        #         "ContentType": content_type,
+        #         "ACL": self.default_acl,
+        #     },
+        #     ExpiresIn=expires_in,
+        # )
+        return self.connection.meta.client.generate_presigned_url(
             "put_object",
-            Params={
-                "Bucket": settings.AWS_STORAGE_BUCKET_NAME,
-                "Key": path,
-                "ContentType": content_type,
-                "ACL": self.default_acl,
-            },
+            Params={"Bucket": self.bucket_name, "Key": path, "ContentType": content_type},
             ExpiresIn=expires_in,
+            HttpMethod="PUT",
         )
 
 
