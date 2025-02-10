@@ -80,6 +80,11 @@ const props = defineProps({
     authToken: String,
     disableDayNightMode: Boolean,
     enableLogout: Boolean,
+    enableResend: Boolean,
+    speechSynthesis: Boolean,
+    speechSynthesisPitch: Number,
+    speechSynthesisRate: Number,
+    speechSynthesisVoice: String,
 });
 
 const jsonProps = [
@@ -158,6 +163,11 @@ function initStore() {
     store.authToken = data.authToken
     store.disableDayNightMode = data.disableDayNightMode
     store.enableLogout = data.enableLogout
+    store.enableResend = data.enableResend
+    store.speechSynthesis = data.speechSynthesis
+    store.speechSynthesisPitch = data.speechSynthesisPitch
+    store.speechSynthesisRate = data.speechSynthesisRate
+    store.speechSynthesisVoice = data.speechSynthesisVoice
 
     if (store.userId === undefined) {
         store.userId = getUserId()
