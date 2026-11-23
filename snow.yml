@@ -3,8 +3,8 @@ images:
     context: admin
     dockerfile: Dockerfile
   - id: back
-    context: back
-    dockerfile: Dockerfile
+    context: .
+    dockerfile: back/Dockerfile
 
 components:
   - id: admin
@@ -55,7 +55,7 @@ envs:
   admin:
     NUXT_PROXY_OPTIONS_TARGET: '${{ components::back.private_url }}'
     NUXT_API_URL: '${{ components::back.private_url }}'
-    NUXT_PUBLIC_CHATFAQ_WS: 'wss://${{ domains::back.name }'
+    NUXT_PUBLIC_CHATFAQ_WS: 'wss://${{ domains::back.name }}'
     SENTRY_DSN: '${{ vars::SENTRY_DSN_ADMIN }}'
     SENTRY_ENVIRONMENT: '${{ deployment::env.name }}'
   back:

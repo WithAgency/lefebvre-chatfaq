@@ -10,8 +10,8 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "~3.13"
-modelw-preset-django = {version = "*", extras = ["health"]}
+python = "~3.14"
+modelw-preset-django = {version = "~2026.10.0", extras = ["health"]}
 drf-spectacular = {extras = ["sidecar"], version = "*"}
 channels = "*"
 daphne = "*"
@@ -47,10 +47,24 @@ PyMuPDF = "*"
 channels-redis = "*"
 typefit = "*"
 ray = {extras = ["data", "serve"], version = "*"}
-chat-rag = "*"
+chat-rag = {path = "../chat_rag", develop = true}
 networkx = "*"
 markdown = "*"
-procrastinate = "*"
+procrastinate = "~3.10"
+
+[tool.poetry.group.ml]
+optional = true
+
+[tool.poetry.group.ml.dependencies]
+torch = {version = "2.10.0+cpu", source = "pytorch-cpu"}
+sentence-transformers = "^2.3.0"
+einops = "^0.6.1"
+accelerate = "^0.31.0"
+protobuf = "*"
+hdbscan = "^0.8.36"
+umap-learn = "^0.5.6"
+bm25s = "^0.1.7"
+
 [tool.poetry.group.dev.dependencies]
 black = "*"
 isort = "*"
@@ -70,4 +84,9 @@ build-backend = "poetry.core.masonry.api"
 [[tool.poetry.source]]
 name = "test"
 url = "https://test.pypi.org/simple/"
+priority = "explicit"
+
+[[tool.poetry.source]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
 priority = "explicit"

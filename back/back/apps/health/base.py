@@ -130,10 +130,28 @@ class DjangoHealthCheckWrapper(HealthCheck, ABC):
         as possible.
         """
 
-        self.check.run_check()
+        import inspect
+        import timeit
+
+        from asgiref.sync import async_to_sync
+        from health_check.exceptions import HealthCheckException
+
+        start = timeit.default_timer()
+        try:
+            if inspect.iscoroutinefunction(self.check.run):
+                async_to_sync(self.check.run)()
+            else:
+                self.check.run()
+        except HealthCheckException as exc:
+            return Outcome(
+                instance=self,
+                status=Status.ERROR,
+                message=str(exc),
+                extra={"time_taken": timeit.default_timer() - start},
+            )
         return Outcome(
             instance=self,
-            status=Status(Status.OK if self.check.status else Status.ERROR),
-            message=self.check.pretty_status(),
-            extra={"time_taken": self.check.time_taken},
+            status=Status.OK,
+            message="OK",
+            extra={"time_taken": timeit.default_timer() - start},
         )
